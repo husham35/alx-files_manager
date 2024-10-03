@@ -50,10 +50,6 @@ async function postUpload(req, res) {
 async function getShow(req, res) {
   const { id: fileId } = req.params;
   const { _id: userId } = req.appUser;
-
-  const user = await mongoClient.getFile({ _id: mongoClient.ObjectId(userId), userId });
-  if (!user) return res.status(401).json({ error: 'Unauthorized' });
-
   let file = await mongoClient.getFile({ _id: mongoClient.ObjectId(fileId), userId });
   if (!file) return res.status(404).json({ error: 'Not found' });
   file = processFileDocument(file);
@@ -63,9 +59,6 @@ async function getShow(req, res) {
 async function getIndex(req, res) {
   const { parentId = 0, page = 0 } = req.query;
   const { _id: userId } = req.appUser;
-
-  const user = await mongoClient.getFile({ _id: mongoClient.ObjectId(userId), userId });
-  if (!user) return res.status(401).json({ error: 'Unauthorized' });
 
   let mongodbQuery = { userId };
 
